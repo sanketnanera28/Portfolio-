@@ -15,7 +15,7 @@
 .login-icon-wrapper {
     width: 60px;
     height: 60px;
-    borderRadius: 50%;
+    border-radius: 50%;
     background: var(--gradient-main);
     display: flex;
     justify-content: center;
@@ -44,7 +44,7 @@
 .form-group {
     display: flex;
     flex-direction: column;
-    textAlign: left;
+    text-align: left;
     gap: 0.5rem;
 }
 

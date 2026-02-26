@@ -2,7 +2,7 @@
     background: var(--bg-card);
     border-top: 1px solid var(--border-color);
     padding: 3rem 0 1rem 0;
-    marginTop: auto;
+    margin-top: auto;
 }
 
 .footer-container {
@@ -42,7 +42,24 @@
     border-top: 1px solid var(--border-color);
     margin-top: 1.5rem;
     padding-top: 1.5rem;
-    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     color: var(--text-muted);
     font-size: 0.9rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.footer-admin-link {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.8rem;
+    opacity: 0.5;
+    transition: all 0.3s ease;
+}
+
+.footer-admin-link:hover {
+    opacity: 1;
+    color: var(--accent-primary);
 }

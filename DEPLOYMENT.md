@@ -63,5 +63,12 @@ If you prefer a simpler command-line approach:
    ```
 3. Run: `npm run deploy`
 
+## 5. Accessing the Admin Panel
+Once your portfolio is live, you can access the admin dashboard by appending `#/admin/login` to your URL.
+
+Example: `https://YOUR_USERNAME.github.io/YOUR_REPO_NAME/#/admin/login`
+
+I have also added a discreet **Admin** link at the very bottom of the footer for easy access.
+
 > [!IMPORTANT]
 > Since this is a client-side app using `localStorage`, your admin changes made on `localhost` won't automatically show up on the live site. You will need to log in to the live site's admin panel and upload your info there once it's live!

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Mail, Github, Linkedin, Twitter } from 'lucide-react';
+import { NavLink } from 'react-router-dom';
 import { usePortfolio } from '../context/PortfolioContext';
 import './Footer.css';
 
@@ -42,7 +43,8 @@ const Footer = () => {
                 </div>
 
                 <div className="footer-bottom">
-                    &copy; {new Date().getFullYear()} {personalInfo.name}. All rights reserved.
+                    <p>&copy; {new Date().getFullYear()} {personalInfo.name}. All rights reserved.</p>
+                    <NavLink to="/admin/login" className="footer-admin-link">Admin</NavLink>
                 </div>
             </div>
         </footer>
