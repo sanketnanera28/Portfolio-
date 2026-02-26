@@ -1,0 +1,96 @@
+.login-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 400px;
+    padding: 3rem 2rem;
+    text-align: center;
+}
+
+.login-icon-wrapper {
+    width: 60px;
+    height: 60px;
+    borderRadius: 50%;
+    background: var(--gradient-main);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 1.5rem auto;
+    color: white;
+}
+
+.login-title {
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.login-subtitle {
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    textAlign: left;
+    gap: 0.5rem;
+}
+
+.form-label {
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.form-input {
+    padding: 0.8rem 1rem;
+    border-radius: var(--border-radius-sm);
+    background: rgba(15, 23, 42, 0.5);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    font-family: inherit;
+    outline: none;
+    transition: border var(--transition-fast);
+}
+
+.form-input:focus {
+    border-color: var(--accent-primary);
+}
+
+.form-input-error {
+    border-color: var(--accent-tertiary) !important;
+}
+
+.error-text {
+    color: var(--accent-tertiary);
+    font-size: 0.85rem;
+}
+
+.submit-button {
+    padding: 1rem;
+    border-radius: var(--border-radius-sm);
+    background: var(--gradient-main);
+    color: white;
+    border: none;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    transition: opacity var(--transition-fast);
+}
+
+.submit-button:hover {
+    opacity: 0.9;
+}
