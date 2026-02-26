@@ -14,7 +14,7 @@ import PrivateRoute from './components/PrivateRoute';
 
 function App() {
   return (
-    <Router>
+    <Router basename={import.meta.env.BASE_URL}>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
