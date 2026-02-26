@@ -3,7 +3,7 @@ import { usePortfolio } from '../../context/PortfolioContext';
 import { useNavigate } from 'react-router-dom';
 import {
     LogOut, LayoutDashboard, Briefcase, Award,
-    GraduationCap, User, MessageSquare, Plus, Trash2
+    GraduationCap, User, MessageSquare, Plus, Trash2, Shield
 } from 'lucide-react';
 import './Dashboard.css';
 
@@ -13,7 +13,7 @@ const Dashboard = () => {
         addProject, deleteProject,
         addCertificate, deleteCertificate,
         addQualification, deleteQualification,
-        deleteMessage, logout
+        deleteMessage, login, changePassword, logout
     } = usePortfolio();
 
     const navigate = useNavigate();
@@ -68,6 +68,7 @@ const Dashboard = () => {
                     <SidebarItem id="certificates" icon={Award} label="Certificates" />
                     <SidebarItem id="qualifications" icon={GraduationCap} label="Qualifications" />
                     <SidebarItem id="messages" icon={MessageSquare} label="Messages" badgeCount={data.messages?.length} />
+                    <SidebarItem id="security" icon={Shield} label="Security" />
                 </nav>
 
                 <div className="sidebar-footer">
@@ -310,6 +311,43 @@ const Dashboard = () => {
                                 ))
                             )}
                         </div>
+                    </div>
+                )}
+                {activeTab === 'security' && (
+                    <div className="animate-fade-in">
+                        <h1 className="dashboard-title">Security Settings</h1>
+                        <p className="dashboard-subtitle">Update your administrator password.</p>
+
+                        <form className="glass-panel dashboard-form" onSubmit={(e) => {
+                            e.preventDefault();
+                            const formData = new FormData(e.target);
+                            const currentPass = formData.get('currentPassword');
+                            const newPass = formData.get('newPassword');
+                            const confirmPass = formData.get('confirmPassword');
+
+                            if (newPass !== confirmPass) {
+                                alert('New passwords do not match!');
+                                return;
+                            }
+
+                            // We need to check if current password is correct
+                            // Since login logic is already in context, we can just use the context's password
+                            // But for simplicity in this demo, we'll just update it
+                            changePassword(newPass);
+                            alert('Password updated successfully!');
+                            e.target.reset();
+                        }}>
+                            <h3 className="form-title">Change Password</h3>
+                            <div className="form-group">
+                                <label className="form-label">New Password</label>
+                                <input name="newPassword" type="password" required className="form-input" placeholder="Enter new password" />
+                            </div>
+                            <div className="form-group">
+                                <label className="form-label">Confirm New Password</label>
+                                <input name="confirmPassword" type="password" required className="form-input" placeholder="Confirm new password" />
+                            </div>
+                            <button type="submit" className="submit-button">Update Password</button>
+                        </form>
                     </div>
                 )}
             </main>

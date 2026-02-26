@@ -83,6 +83,10 @@ export const PortfolioProvider = ({ children }) => {
         return localStorage.getItem('isAdminAuth') === 'true';
     });
 
+    const [adminPassword, setAdminPassword] = useState(() => {
+        return localStorage.getItem('adminPassword') || 'admin123';
+    });
+
     // Save to local storage whenever data changes
     useEffect(() => {
         localStorage.setItem('portfolioData', JSON.stringify(data));
@@ -90,13 +94,17 @@ export const PortfolioProvider = ({ children }) => {
 
     // Auth functions
     const login = (password) => {
-        // Basic password check for the demo
-        if (password === 'admin123') {
+        if (password === adminPassword) {
             setIsAdminAuth(true);
             localStorage.setItem('isAdminAuth', 'true');
             return true;
         }
         return false;
+    };
+
+    const changePassword = (newPassword) => {
+        setAdminPassword(newPassword);
+        localStorage.setItem('adminPassword', newPassword);
     };
 
     const logout = () => {
@@ -208,6 +216,7 @@ export const PortfolioProvider = ({ children }) => {
             deleteQualification,
             addMessage,
             deleteMessage,
+            changePassword,
         }}>
             {children}
         </PortfolioContext.Provider>

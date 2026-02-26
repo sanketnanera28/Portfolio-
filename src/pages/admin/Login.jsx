@@ -15,7 +15,7 @@ const Login = () => {
         if (login(password)) {
             navigate('/admin/dashboard');
         } else {
-            setError('Invalid password. Hint: admin123');
+            setError('Invalid password. Please try again.');
         }
     };
 
