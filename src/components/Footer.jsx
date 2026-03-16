@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, Github, Linkedin, Twitter } from 'lucide-react';
+import { Mail, Github, Linkedin, Instagram } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import { usePortfolio } from '../context/PortfolioContext';
 import './Footer.css';
@@ -30,9 +30,9 @@ const Footer = () => {
                             <Linkedin size={24} />
                         </a>
                     )}
-                    {personalInfo.twitter && (
-                        <a href={personalInfo.twitter} target="_blank" rel="noopener noreferrer" className="footer-social-link">
-                            <Twitter size={24} />
+                    {personalInfo.instagram && (
+                        <a href={personalInfo.instagram} target="_blank" rel="noopener noreferrer" className="footer-social-link">
+                            <Instagram size={24} />
                         </a>
                     )}
                     {personalInfo.email && (

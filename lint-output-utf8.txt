@@ -1,0 +1,275 @@
+
+> portfolio@0.0.0 lint
+> eslint .
+
+
+C:\Users\vedan\OneDrive\Desktop\Project\portfolio\src\context\PortfolioContext.jsx
+  31:14  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\vedan\OneDrive\Desktop\Project\portfolio\src\pages\admin\Dashboard.jsx
+   18:24  error  'login' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            no-unused-vars
+   28:13  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  26 |     useEffect(() => {
+  27 |         if (data?.personalInfo?.image) {
+> 28 |             setProfileImage(data.personalInfo.image);
+     |             ^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  29 |         }
+  30 |     }, [data?.personalInfo?.image]);
+  31 |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           react-hooks/set-state-in-effect
+   56:38  error  'Icon' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 no-unused-vars
+   75:22  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  73 |
+  74 |                 <nav className="sidebar-nav">
+> 75 |                     <SidebarItem id="overview" icon={LayoutDashboard} label="Overview" />
+     |                      ^^^^^^^^^^^ This component is created during render
+  76 |                     <SidebarItem id="personal" icon={User} label="Personal Info" />
+  77 |                     <SidebarItem id="projects" icon={Briefcase} label="Projects" />
+  78 |                     <SidebarItem id="certificates" icon={Award} label="Certificates" />
+
+  54 |
+  55 |     // Helper to render sidebar items
+> 56 |     const SidebarItem = ({ id, icon: Icon, label, badgeCount }) => (
+     |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 57 |         <button
+     | ^^^^^^^^^^^^^^^
+> 58 |             onClick={() => setActiveTab(id)}
+     | ^^^^^^^^^^^^^^^
+> 59 |             className={`nav-item ${activeTab === id ? 'nav-item-active' : ''}`}
+     | ^^^^^^^^^^^^^^^
+> 60 |         >
+     | ^^^^^^^^^^^^^^^
+> 61 |             <Icon size={20} /> {label}
+     | ^^^^^^^^^^^^^^^
+> 62 |             {badgeCount > 0 && <span className="badge">{badgeCount}</span>}
+     | ^^^^^^^^^^^^^^^
+> 63 |         </button>
+     | ^^^^^^^^^^^^^^^
+> 64 |     );
+     | ^^^^^^ The component is created during render here
+  65 |
+  66 |     return (
+  67 |         <div className="dashboard-container">                                                                                                                                                                                   react-hooks/static-components
+   76:22  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  74 |                 <nav className="sidebar-nav">
+  75 |                     <SidebarItem id="overview" icon={LayoutDashboard} label="Overview" />
+> 76 |                     <SidebarItem id="personal" icon={User} label="Personal Info" />
+     |                      ^^^^^^^^^^^ This component is created during render
+  77 |                     <SidebarItem id="projects" icon={Briefcase} label="Projects" />
+  78 |                     <SidebarItem id="certificates" icon={Award} label="Certificates" />
+  79 |                     <SidebarItem id="qualifications" icon={GraduationCap} label="Qualifications" />
+
+  54 |
+  55 |     // Helper to render sidebar items
+> 56 |     const SidebarItem = ({ id, icon: Icon, label, badgeCount }) => (
+     |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 57 |         <button
+     | ^^^^^^^^^^^^^^^
+> 58 |             onClick={() => setActiveTab(id)}
+     | ^^^^^^^^^^^^^^^
+> 59 |             className={`nav-item ${activeTab === id ? 'nav-item-active' : ''}`}
+     | ^^^^^^^^^^^^^^^
+> 60 |         >
+     | ^^^^^^^^^^^^^^^
+> 61 |             <Icon size={20} /> {label}
+     | ^^^^^^^^^^^^^^^
+> 62 |             {badgeCount > 0 && <span className="badge">{badgeCount}</span>}
+     | ^^^^^^^^^^^^^^^
+> 63 |         </button>
+     | ^^^^^^^^^^^^^^^
+> 64 |     );
+     | ^^^^^^ The component is created during render here
+  65 |
+  66 |     return (
+  67 |         <div className="dashboard-container">                                                                               react-hooks/static-components
+   77:22  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  75 |                     <SidebarItem id="overview" icon={LayoutDashboard} label="Overview" />
+  76 |                     <SidebarItem id="personal" icon={User} label="Personal Info" />
+> 77 |                     <SidebarItem id="projects" icon={Briefcase} label="Projects" />
+     |                      ^^^^^^^^^^^ This component is created during render
+  78 |                     <SidebarItem id="certificates" icon={Award} label="Certificates" />
+  79 |                     <SidebarItem id="qualifications" icon={GraduationCap} label="Qualifications" />
+  80 |                     <SidebarItem id="messages" icon={MessageSquare} label="Messages" badgeCount={data.messages?.length} />
+
+  54 |
+  55 |     // Helper to render sidebar items
+> 56 |     const SidebarItem = ({ id, icon: Icon, label, badgeCount }) => (
+     |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 57 |         <button
+     | ^^^^^^^^^^^^^^^
+> 58 |             onClick={() => setActiveTab(id)}
+     | ^^^^^^^^^^^^^^^
+> 59 |             className={`nav-item ${activeTab === id ? 'nav-item-active' : ''}`}
+     | ^^^^^^^^^^^^^^^
+> 60 |         >
+     | ^^^^^^^^^^^^^^^
+> 61 |             <Icon size={20} /> {label}
+     | ^^^^^^^^^^^^^^^
+> 62 |             {badgeCount > 0 && <span className="badge">{badgeCount}</span>}
+     | ^^^^^^^^^^^^^^^
+> 63 |         </button>
+     | ^^^^^^^^^^^^^^^
+> 64 |     );
+     | ^^^^^^ The component is created during render here
+  65 |
+  66 |     return (
+  67 |         <div className="dashboard-container">  react-hooks/static-components
+   78:22  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  76 |                     <SidebarItem id="personal" icon={User} label="Personal Info" />
+  77 |                     <SidebarItem id="projects" icon={Briefcase} label="Projects" />
+> 78 |                     <SidebarItem id="certificates" icon={Award} label="Certificates" />
+     |                      ^^^^^^^^^^^ This component is created during render
+  79 |                     <SidebarItem id="qualifications" icon={GraduationCap} label="Qualifications" />
+  80 |                     <SidebarItem id="messages" icon={MessageSquare} label="Messages" badgeCount={data.messages?.length} />
+  81 |                     <SidebarItem id="security" icon={Shield} label="Security" />
+
+  54 |
+  55 |     // Helper to render sidebar items
+> 56 |     const SidebarItem = ({ id, icon: Icon, label, badgeCount }) => (
+     |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 57 |         <button
+     | ^^^^^^^^^^^^^^^
+> 58 |             onClick={() => setActiveTab(id)}
+     | ^^^^^^^^^^^^^^^
+> 59 |             className={`nav-item ${activeTab === id ? 'nav-item-active' : ''}`}
+     | ^^^^^^^^^^^^^^^
+> 60 |         >
+     | ^^^^^^^^^^^^^^^
+> 61 |             <Icon size={20} /> {label}
+     | ^^^^^^^^^^^^^^^
+> 62 |             {badgeCount > 0 && <span className="badge">{badgeCount}</span>}
+     | ^^^^^^^^^^^^^^^
+> 63 |         </button>
+     | ^^^^^^^^^^^^^^^
+> 64 |     );
+     | ^^^^^^ The component is created during render here
+  65 |
+  66 |     return (
+  67 |         <div className="dashboard-container">           react-hooks/static-components
+   79:22  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  77 |                     <SidebarItem id="projects" icon={Briefcase} label="Projects" />
+  78 |                     <SidebarItem id="certificates" icon={Award} label="Certificates" />
+> 79 |                     <SidebarItem id="qualifications" icon={GraduationCap} label="Qualifications" />
+     |                      ^^^^^^^^^^^ This component is created during render
+  80 |                     <SidebarItem id="messages" icon={MessageSquare} label="Messages" badgeCount={data.messages?.length} />
+  81 |                     <SidebarItem id="security" icon={Shield} label="Security" />
+  82 |                 </nav>
+
+  54 |
+  55 |     // Helper to render sidebar items
+> 56 |     const SidebarItem = ({ id, icon: Icon, label, badgeCount }) => (
+     |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 57 |         <button
+     | ^^^^^^^^^^^^^^^
+> 58 |             onClick={() => setActiveTab(id)}
+     | ^^^^^^^^^^^^^^^
+> 59 |             className={`nav-item ${activeTab === id ? 'nav-item-active' : ''}`}
+     | ^^^^^^^^^^^^^^^
+> 60 |         >
+     | ^^^^^^^^^^^^^^^
+> 61 |             <Icon size={20} /> {label}
+     | ^^^^^^^^^^^^^^^
+> 62 |             {badgeCount > 0 && <span className="badge">{badgeCount}</span>}
+     | ^^^^^^^^^^^^^^^
+> 63 |         </button>
+     | ^^^^^^^^^^^^^^^
+> 64 |     );
+     | ^^^^^^ The component is created during render here
+  65 |
+  66 |     return (
+  67 |         <div className="dashboard-container">                                                                        react-hooks/static-components
+   80:22  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  78 |                     <SidebarItem id="certificates" icon={Award} label="Certificates" />
+  79 |                     <SidebarItem id="qualifications" icon={GraduationCap} label="Qualifications" />
+> 80 |                     <SidebarItem id="messages" icon={MessageSquare} label="Messages" badgeCount={data.messages?.length} />
+     |                      ^^^^^^^^^^^ This component is created during render
+  81 |                     <SidebarItem id="security" icon={Shield} label="Security" />
+  82 |                 </nav>
+  83 |
+
+  54 |
+  55 |     // Helper to render sidebar items
+> 56 |     const SidebarItem = ({ id, icon: Icon, label, badgeCount }) => (
+     |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 57 |         <button
+     | ^^^^^^^^^^^^^^^
+> 58 |             onClick={() => setActiveTab(id)}
+     | ^^^^^^^^^^^^^^^
+> 59 |             className={`nav-item ${activeTab === id ? 'nav-item-active' : ''}`}
+     | ^^^^^^^^^^^^^^^
+> 60 |         >
+     | ^^^^^^^^^^^^^^^
+> 61 |             <Icon size={20} /> {label}
+     | ^^^^^^^^^^^^^^^
+> 62 |             {badgeCount > 0 && <span className="badge">{badgeCount}</span>}
+     | ^^^^^^^^^^^^^^^
+> 63 |         </button>
+     | ^^^^^^^^^^^^^^^
+> 64 |     );
+     | ^^^^^^ The component is created during render here
+  65 |
+  66 |     return (
+  67 |         <div className="dashboard-container">                                                                                                                                                            react-hooks/static-components
+   81:22  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  79 |                     <SidebarItem id="qualifications" icon={GraduationCap} label="Qualifications" />
+  80 |                     <SidebarItem id="messages" icon={MessageSquare} label="Messages" badgeCount={data.messages?.length} />
+> 81 |                     <SidebarItem id="security" icon={Shield} label="Security" />
+     |                      ^^^^^^^^^^^ This component is created during render
+  82 |                 </nav>
+  83 |
+  84 |                 <div className="sidebar-footer">
+
+  54 |
+  55 |     // Helper to render sidebar items
+> 56 |     const SidebarItem = ({ id, icon: Icon, label, badgeCount }) => (
+     |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 57 |         <button
+     | ^^^^^^^^^^^^^^^
+> 58 |             onClick={() => setActiveTab(id)}
+     | ^^^^^^^^^^^^^^^
+> 59 |             className={`nav-item ${activeTab === id ? 'nav-item-active' : ''}`}
+     | ^^^^^^^^^^^^^^^
+> 60 |         >
+     | ^^^^^^^^^^^^^^^
+> 61 |             <Icon size={20} /> {label}
+     | ^^^^^^^^^^^^^^^
+> 62 |             {badgeCount > 0 && <span className="badge">{badgeCount}</span>}
+     | ^^^^^^^^^^^^^^^
+> 63 |         </button>
+     | ^^^^^^^^^^^^^^^
+> 64 |     );
+     | ^^^^^^ The component is created during render here
+  65 |
+  66 |     return (
+  67 |         <div className="dashboard-container">                                                                                                                                                                                                   react-hooks/static-components
+  336:35  error  'currentPass' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      no-unused-vars
+
+✖ 12 problems (12 errors, 0 warnings)
+

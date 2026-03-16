@@ -1,11 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { usePortfolio } from '../../context/PortfolioContext';
 import { useNavigate } from 'react-router-dom';
+import { storage } from '../../firebase';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import {
     LogOut, LayoutDashboard, Briefcase, Award,
-    GraduationCap, User, MessageSquare, Plus, Trash2, Shield
+    GraduationCap, User, MessageSquare, Trash2, Shield
 } from 'lucide-react';
 import './Dashboard.css';
+
+// Helper to render sidebar items
+const SidebarItem = ({ id, icon, label, badgeCount, activeTab, setActiveTab }) => {
+    const IconComponent = icon;
+    return (
+        <button
+            onClick={() => setActiveTab(id)}
+            className={`nav-item ${activeTab === id ? 'nav-item-active' : ''}`}
+        >
+            <IconComponent size={20} /> {label}
+            {badgeCount > 0 && <span className="badge">{badgeCount}</span>}
+        </button>
+    );
+};
 
 const Dashboard = () => {
     const {
@@ -13,27 +29,36 @@ const Dashboard = () => {
         addProject, deleteProject,
         addCertificate, deleteCertificate,
         addQualification, deleteQualification,
-        deleteMessage, login, changePassword, logout
+        deleteMessage, changePassword, logout
     } = usePortfolio();
 
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('overview');
     const [profileImage, setProfileImage] = useState(data?.personalInfo?.image || '');
+    const [uploading, setUploading] = useState(false);
 
     useEffect(() => {
         if (data?.personalInfo?.image) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setProfileImage(data.personalInfo.image);
         }
     }, [data?.personalInfo?.image]);
 
-    const handleImageUpload = (e) => {
+    const handleImageUpload = async (e) => {
         const file = e.target.files[0];
         if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setProfileImage(reader.result);
-            };
-            reader.readAsDataURL(file);
+            try {
+                setUploading(true);
+                const storageRef = ref(storage, `profile/${Date.now()}_${file.name}`);
+                await uploadBytes(storageRef, file);
+                const url = await getDownloadURL(storageRef);
+                setProfileImage(url);
+                setUploading(false);
+            } catch (error) {
+                console.error("Upload error:", error);
+                setUploading(false);
+                alert("Failed to upload image.");
+            }
         }
     };
 
@@ -41,17 +66,6 @@ const Dashboard = () => {
         logout();
         navigate('/');
     };
-
-    // Helper to render sidebar items
-    const SidebarItem = ({ id, icon: Icon, label, badgeCount }) => (
-        <button
-            onClick={() => setActiveTab(id)}
-            className={`nav-item ${activeTab === id ? 'nav-item-active' : ''}`}
-        >
-            <Icon size={20} /> {label}
-            {badgeCount > 0 && <span className="badge">{badgeCount}</span>}
-        </button>
-    );
 
     return (
         <div className="dashboard-container">
@@ -62,13 +76,13 @@ const Dashboard = () => {
                 </div>
 
                 <nav className="sidebar-nav">
-                    <SidebarItem id="overview" icon={LayoutDashboard} label="Overview" />
-                    <SidebarItem id="personal" icon={User} label="Personal Info" />
-                    <SidebarItem id="projects" icon={Briefcase} label="Projects" />
-                    <SidebarItem id="certificates" icon={Award} label="Certificates" />
-                    <SidebarItem id="qualifications" icon={GraduationCap} label="Qualifications" />
-                    <SidebarItem id="messages" icon={MessageSquare} label="Messages" badgeCount={data.messages?.length} />
-                    <SidebarItem id="security" icon={Shield} label="Security" />
+                    <SidebarItem id="overview" icon={LayoutDashboard} label="Overview" activeTab={activeTab} setActiveTab={setActiveTab} />
+                    <SidebarItem id="personal" icon={User} label="Personal Info" activeTab={activeTab} setActiveTab={setActiveTab} />
+                    <SidebarItem id="projects" icon={Briefcase} label="Projects" activeTab={activeTab} setActiveTab={setActiveTab} />
+                    <SidebarItem id="certificates" icon={Award} label="Certificates" activeTab={activeTab} setActiveTab={setActiveTab} />
+                    <SidebarItem id="qualifications" icon={GraduationCap} label="Qualifications" activeTab={activeTab} setActiveTab={setActiveTab} />
+                    <SidebarItem id="messages" icon={MessageSquare} label="Messages" badgeCount={data.messages?.length} activeTab={activeTab} setActiveTab={setActiveTab} />
+                    <SidebarItem id="security" icon={Shield} label="Security" activeTab={activeTab} setActiveTab={setActiveTab} />
                 </nav>
 
                 <div className="sidebar-footer">
@@ -142,15 +156,25 @@ const Dashboard = () => {
                                 <input name="email" defaultValue={data.personalInfo.email} className="form-input" required />
                             </div>
                             <div className="form-group">
+                                <label className="form-label">Phone</label>
+                                <input name="phone" defaultValue={data.personalInfo.phone} className="form-input" />
+                            </div>
+                            <div className="form-group">
                                 <label className="form-label">GitHub URL</label>
                                 <input name="github" defaultValue={data.personalInfo.github} className="form-input" />
+                            </div>
+                            <div className="form-group">
+                                <label className="form-label">Instagram URL</label>
+                                <input name="instagram" defaultValue={data.personalInfo.instagram} className="form-input" />
                             </div>
                             <div className="form-group">
                                 <label className="form-label">LinkedIn URL</label>
                                 <input name="linkedin" defaultValue={data.personalInfo.linkedin} className="form-input" />
                             </div>
 
-                            <button type="submit" className="submit-button">Save Changes</button>
+                            <button type="submit" className="submit-button" disabled={uploading}>
+                                {uploading ? 'Uploading...' : 'Save Changes'}
+                            </button>
                         </form>
                     </div>
                 )}
@@ -321,7 +345,6 @@ const Dashboard = () => {
                         <form className="glass-panel dashboard-form" onSubmit={(e) => {
                             e.preventDefault();
                             const formData = new FormData(e.target);
-                            const currentPass = formData.get('currentPassword');
                             const newPass = formData.get('newPassword');
                             const confirmPass = formData.get('confirmPassword');
 
