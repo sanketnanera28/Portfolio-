@@ -7,7 +7,8 @@ import {
     setDoc,
     updateDoc,
     arrayUnion,
-    arrayRemove
+    arrayRemove,
+    getDoc
 } from 'firebase/firestore';
 
 // Initial dummy data as fallback
@@ -178,9 +179,27 @@ export const PortfolioProvider = ({ children }) => {
         return localStorage.getItem('adminPassword') || 'admin123';
     });
 
+    // Initialize document helper
+    const initializeDoc = async (docRef) => {
+        try {
+            const docSnap = await getDoc(docRef);
+            if (!docSnap.exists()) {
+                await setDoc(docRef, initialData);
+                console.log("Firestore initialized with default data.");
+            }
+        } catch (error) {
+            console.error("Failed to initialize Firestore:", error);
+            // If permissions fail, we just use local initialData which is already set in state
+        }
+    };
+
     // Real-time listener for Firestore data
     useEffect(() => {
         const docRef = doc(db, 'portfolio', 'data');
+        
+        // Initial check and creation
+        initializeDoc(docRef);
+
         const unsubscribe = onSnapshot(docRef, (docSnap) => {
             if (docSnap.exists()) {
                 const firestoreData = docSnap.data();
@@ -194,19 +213,17 @@ export const PortfolioProvider = ({ children }) => {
                     }
                 };
                 
-                // Ensure image fallback if Firestore has an empty image or invalid path
+                // Ensure image fallback
                 if (!mergedData.personalInfo.image || mergedData.personalInfo.image === "/src/assets/profile.jpeg") {
                     mergedData.personalInfo.image = defaultProfile;
                 }
                 
                 setData(mergedData);
-            } else {
-                // Initialize Firestore with initialData if it doesn't exist
-                setDoc(docRef, initialData);
             }
             setLoading(false);
         }, (error) => {
-            console.error("Firestore error:", error);
+            console.error("Firestore access error:", error);
+            // If permission denied, still stop loading to show fallback data
             setLoading(false);
         });
 
@@ -238,8 +255,10 @@ export const PortfolioProvider = ({ children }) => {
         const docRef = doc(db, 'portfolio', 'data');
         try {
             await updateDoc(docRef, { personalInfo: newInfo });
+            return true;
         } catch (e) {
             console.error("Error updating personal info:", e);
+            return false;
         }
     };
 
@@ -251,8 +270,10 @@ export const PortfolioProvider = ({ children }) => {
             await updateDoc(docRef, {
                 projects: arrayUnion(newProj)
             });
+            return true;
         } catch (e) {
             console.error("Error adding project:", e);
+            return false;
         }
     };
 
@@ -264,8 +285,10 @@ export const PortfolioProvider = ({ children }) => {
             await updateDoc(docRef, {
                 projects: arrayRemove(projectToDelete)
             });
+            return true;
         } catch (e) {
             console.error("Error deleting project:", e);
+            return false;
         }
     };
 
@@ -277,8 +300,10 @@ export const PortfolioProvider = ({ children }) => {
             await updateDoc(docRef, {
                 certificates: arrayUnion(newCert)
             });
+            return true;
         } catch (e) {
             console.error("Error adding certificate:", e);
+            return false;
         }
     };
 
@@ -290,8 +315,10 @@ export const PortfolioProvider = ({ children }) => {
             await updateDoc(docRef, {
                 certificates: arrayRemove(certToDelete)
             });
+            return true;
         } catch (e) {
             console.error("Error deleting certificate:", e);
+            return false;
         }
     };
 
@@ -303,8 +330,10 @@ export const PortfolioProvider = ({ children }) => {
             await updateDoc(docRef, {
                 qualifications: arrayUnion(newQual)
             });
+            return true;
         } catch (e) {
             console.error("Error adding qualification:", e);
+            return false;
         }
     };
 
@@ -316,8 +345,10 @@ export const PortfolioProvider = ({ children }) => {
             await updateDoc(docRef, {
                 qualifications: arrayRemove(qualToDelete)
             });
+            return true;
         } catch (e) {
             console.error("Error deleting qualification:", e);
+            return false;
         }
     };
 
@@ -344,8 +375,10 @@ export const PortfolioProvider = ({ children }) => {
             await updateDoc(docRef, {
                 messages: arrayRemove(msgToDelete)
             });
+            return true;
         } catch (e) {
             console.error("Error deleting message:", e);
+            return false;
         }
     };
 
